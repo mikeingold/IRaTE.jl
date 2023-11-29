@@ -55,7 +55,7 @@ function _isar_add_layer!(isar::ISAR_Image, source::ScatteringLine)
 	img_b = ImageDraw.Point(img_b_x, img_b_y)
 	
 	# Draw a line segment on the image
-	draw!(isar.img, LineSegment(img_a,img_b), Gray{Float64}(1.0))
+	draw!(isar.img, LineSegment(img_a,img_b), Gray{Float64}(1.0), xiaolin_wu)
 end
 
 function _isar_add_noise!(isar::ISAR_Image, level)
