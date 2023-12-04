@@ -1,4 +1,5 @@
 module IRaTE
+    using Images, ImageDraw, ImageFiltering
     using Makie
     using Meshes
 
