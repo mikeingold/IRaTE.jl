@@ -12,7 +12,7 @@ struct ScatteringPoint <: ScatteringSource
 end
 
 """
-    ScatteringPoint
+    ScatteringLine
 
 Represents a scattering line source that extends from a point `a` to another
 point `b` with a monostatic RCS function `sigma`.
@@ -28,7 +28,7 @@ end
     coherentsum(sources, lambda, phi)
 
 Calculate the coherent far-field sum of a set of `sources`, at a specific
-wavelength `lambda`, and angle `phi` relative to the positive-x-direction.
+wavelength `lambda`, and angle `phi` relative to the positive-x direction.
 ```math
 \sigma(\phi) = \left| \sum_{i=1}^N \sqrt{\sigma_i(\phi)} \exp\left[ 2\frac{2\pi}{\lambda} \left( x\,\cos\phi + y\,\sin\phi \right) \right] \right|^2
 ```

@@ -6,7 +6,8 @@ module IRaTE
     include("utils_meshes.jl")
 
     include("sources.jl")
-    export Source, coherentsum
+    export ScatteringSource, ScatteringPoint, ScatteringLine
+    export coherentsum
 
     include("isar.jl")
     export ISAR_Image, generate_isar
