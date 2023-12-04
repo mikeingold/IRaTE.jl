@@ -1,18 +1,18 @@
 # Makie Recipe
-MakieCore.@recipe(ShowISAR) do scene
+Makie.@recipe(ShowISAR) do scene
     # Attributes provides a define-able API for plot-specific settings
     # These aren't automatically propagated, merely passed as fields in a ShowISAR scene object
 	Attributes()
 end
 
-function MakieCore.plot!(isar::ShowISAR{<:Tuple{ISAR_Image}})
+function Makie.plot!(isar::ShowISAR{<:Tuple{ISAR_Image}})
 	# Extract from image struct: x & y ranges, resolution, and the image itself
 	xs = range(isar[1][].xlims[1], isar[1][].xlims[2], length=isar[1][].resolution[1])
 	ys = range(isar[1][].ylims[1], isar[1][].ylims[2], length=isar[1][].resolution[2])
-	img = MakieCore.Observable(isar[1][].img)
+	img = Makie.Observable(isar[1][].img)
 
 	# Plot image as a heatmap, updates automatically if the image data is changed
-	MakieCore.heatmap!(isar,xs,ys, MakieCore.@lift(reinterpret(Float64,$img)), colormap=Reverse(:deep))
+	Makie.heatmap!(isar,xs,ys, Makie.@lift(reinterpret(Float64,$img)), colormap=Reverse(:deep))
 
 	return isar
 end
