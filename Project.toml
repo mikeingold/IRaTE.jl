@@ -1,0 +1,13 @@
+name = "IRaTE"
+uuid = "29112e40-9243-11ee-3715-5d30064b3299"
+authors = ["Mike Ingold <mike.ingold@gmail.com>"]
+version = "0.1.1"
+
+[deps]
+MakieCore = "20f20a25-4f0e-4fdf-b5d1-57303727442b"
+Meshes = "eacbb407-ea5a-433e-ab97-5258b1ca43fa"
+
+[compat]
+julia = "1.6"
+MakieCore = "0.7"
+Meshes = "0.34 - 0.36"
