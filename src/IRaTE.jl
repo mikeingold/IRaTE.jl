@@ -1,5 +1,5 @@
 module IRaTE
-    using MakieCore
+    using Makie
     using Meshes
 
     include("utils_meshes.jl")
