@@ -1,10 +1,10 @@
-mutable struct ISAR_Image
-    img
-    xlims
-    ylims
-    resolution
-    xstep
-    ystep
+mutable struct ISAR_Image{T} where {T}
+    img::Matrix{T}
+    xlims::Tuple{Float64,Float64}
+    ylims::Tuple{Float64,Float64}
+    resolution::Tuple{Int64,Int64}
+    xstep::Float64
+    ystep::Float64
 end
 
 # Construct a blank image
