@@ -1,4 +1,4 @@
-mutable struct ISAR_Image{T} where {T}
+mutable struct ISAR_Image{T}
     img::Matrix{T}
     xlims::Tuple{Float64,Float64}
     ylims::Tuple{Float64,Float64}
