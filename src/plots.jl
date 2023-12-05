@@ -14,6 +14,11 @@ function Makie.plot!(isar::ShowISAR{<:Tuple{ISAR_Image}})
 	# Plot image as a heatmap, updates automatically if the image data is changed
 	Makie.heatmap!(isar,xs,ys, Makie.@lift(reinterpret(Float64,$img)), colormap=Reverse(:deep))
 
+	isar.axis.title = "ISAR Image"
+	isar.axis.xlabel = "Cross-Range [m]"
+	isar.axis.ylabel = "Down-Range [m]"
+	isar.axis.aspect = DataAspect()
+
 	return isar
 end
 
