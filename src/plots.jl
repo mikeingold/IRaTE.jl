@@ -21,22 +21,3 @@ function Makie.plot!(isar::ShowISAR{<:Tuple{ISAR_Image}})
 
 	return isar
 end
-
-#=  Test code to produce an image
-isartest = ISAR_Image(xlims=(-5,5), ylims=(-1.5,1.5), resolution=(201,151))
-
-fig = Figure()
-ax = Makie.Axis(fig[1,1], aspect=1)
-showisar(ax, isartest)
-
-save("./irate_pretest_plot.png", fig)
-fig
-=#
-
-#=  Old test settings
-fig = Figure(size=(800,600))
-# ax = Makie.Axis(fig[1,1], title="Simulated ISAR Image",
-# 				limits=(isar.xlims,isar.ylims),
-# 				xlabel="Cross-range [m]",
-# 				ylabel="Down-range [m]"  )
-=#
