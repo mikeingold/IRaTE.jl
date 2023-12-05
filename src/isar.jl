@@ -19,12 +19,12 @@ end
 # Map a spatial (x,y) point to image array indices (i, j)
 function _map_point_to_img(point::Meshes.Point, isar::ISAR_Image)
 	# Get spatial center for the n'th element along each axis
-	x(i::T) where {T<:Integer} = isar.xlims[1] + i * isar.xstep
-	y(j::T) where {T<:Integer} = isar.ylims[1] + j * isar.ystep
+	_x(i::T) where {T<:Integer} = isar.xlims[1] + i * isar.xstep
+	_y(j::T) where {T<:Integer} = isar.ylims[1] + j * isar.ystep
 	
 	# Error between desired point and the i'th center along each axis
-	xerr(i::T) where {T<:Integer} = x(point) - x(i)
-	yerr(j::T) where {T<:Integer} = y(point) - y(j)
+	xerr(i::T) where {T<:Integer} = x(point) - _x(i)
+	yerr(j::T) where {T<:Integer} = y(point) - _y(j)
 	
 	# Find closest spatial center along x axis
 	i_opt = findfirst(i -> xerr(i) < 0, 1:isar.resolution[1])
