@@ -1,7 +1,7 @@
 name = "IRaTE"
 uuid = "29112e40-9243-11ee-3715-5d30064b3299"
 authors = ["Mike Ingold <mike.ingold@gmail.com>"]
-version = "0.1.6"
+version = "0.2.0"
 
 [deps]
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
