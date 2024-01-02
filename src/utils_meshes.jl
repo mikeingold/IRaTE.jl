@@ -1,24 +1,27 @@
+# BEWARE! THERE BE TYPE PIRACY IN THESE SEAS
+# TODO Consider un-pirating these functions once the IRaTE API settles down a bit
+
 """
     Vec(s)
 
 Convert a 2D Segment `s` with first vertice `a` and second vertice `b`to a 2D
 `Meshes.Vec2` that points from `a` to `b`.
 """
-Vec(s::Meshes.Segment) = s.vertices[2].coords - s.vertices[1].coords
+Meshes.Vec(s::Meshes.Segment) = s.vertices[2].coords - s.vertices[1].coords
 
 """
     ∠(v)
 
 Calculate the angle of a 2D vector `v` relative to the positive `x` direction.
 """
-∠(v::Meshes.Vec2) = ∠(Meshes.Vec(1,0), v)
+Meshes.∠(v::Meshes.Vec2) = ∠(Meshes.Vec(1,0), v)
 
 """
-    ∠(v)
+    ∠(s)
 
 Calculate the angle of a 2D Segment `s` relative to the positive `x` direction.
 """
-∠(s::Meshes.Segment) = ∠(Vec(s))
+Meshes.∠(s::Meshes.Segment) = ∠(Meshes.Vec(s))
 
 """
     ⟂(s; dir=1)

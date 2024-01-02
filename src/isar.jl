@@ -37,6 +37,7 @@ function _map_point_to_img(point::Meshes.Point, isar::ISAR_Image)
 	return (j,i)
 end
 
+# Draw a ScatteringPoint on in ISAR image
 function _isar_add_layer!(isar::ISAR_Image, source::ScatteringPoint)
 	# Map source point (x,y) to image pixel (x,y)
 	(img_x, img_y) = _map_point_to_img(source.pos, isar)
@@ -45,6 +46,7 @@ function _isar_add_layer!(isar::ISAR_Image, source::ScatteringPoint)
 	draw!(isar.img, ImageDraw.Point(img_x,img_y), Gray{Float64}(1.0))
 end
 
+# Draw a ScatteringLine on in ISAR image
 function _isar_add_layer!(isar::ISAR_Image, source::ScatteringLine)
 	# Map source end-points (x,y) to image pixel (x,y)
 	(img_a_x, img_a_y) = _map_point_to_img(source.a, isar)
@@ -58,6 +60,7 @@ function _isar_add_layer!(isar::ISAR_Image, source::ScatteringLine)
 	draw!(isar.img, LineSegment(img_a,img_b), Gray{Float64}(1.0), xiaolin_wu)
 end
 
+# Draw simulated noise on an ISAR image
 function _isar_add_noise!(isar::ISAR_Image, level)
 	@assert ( 0 <= level <= 1 ) "level must be inside range [0,1]"
 	noise = [Gray{Float64}(level*rand()) for x in 1:isar.resolution[1], y in 1:isar.resolution[2]]

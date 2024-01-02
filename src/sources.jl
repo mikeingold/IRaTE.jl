@@ -45,7 +45,10 @@ struct Planform
 end
 
 # Construct a planform given only the boundary geometry
-function Planform(boundary::Meshes.Ngon; defects::Bool=true, defect_density::Int64=1000, defect_severity::Float64=1e-6)
+function Planform(
+    boundary::Meshes.Ngon;
+    defects::Bool=true, defect_density::Int64=1000, defect_severity::Float64=1e-6
+)
     # Generate defects within boundary
     if defects
         sampler = HomogeneousSampling(1000)
