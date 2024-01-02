@@ -25,3 +25,4 @@ Manifest.toml
 
 # Temporary test artifacts
 test/
+.vscode/
