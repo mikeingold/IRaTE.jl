@@ -62,9 +62,16 @@ end
 
 # Draw simulated noise on an ISAR image
 function _isar_add_noise!(isar::ISAR_Image, level)
-	@assert ( 0 <= level <= 1 ) "level must be inside range [0,1]"
+	# Require that level is within range [0,1] to bound value of Color type Gray{}
+	if !( 0 <= level <= 1 )
+		error("Level must be inside range [0,1]")
+	end
+
+	# Construct an image layer representing noise: each pixel IID uniform random in [0, level]
 	noise = [Gray{Float64}(level*rand()) for x in 1:isar.resolution[1], y in 1:isar.resolution[2]]
-	isar.img += noise
+
+	# Add noise layer to existing image data
+	isar.img .+= noise
 end
 
 """
