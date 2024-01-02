@@ -67,7 +67,39 @@ function _isar_add_noise!(isar::ISAR_Image, level)
 	isar.img += noise
 end
 
-function generate_isar(sources; xlims, ylims, resolution)
+"""
+	generate_isar(sources; xlims, ylims, resolution, noise_level)
+
+Generate a simulated ISAR_Image from a set of ScatteringSource's, where the image is
+bounded by `xlims` and `ylims` and sampled at a given `resolution`.
+
+Optional settings:
+- `gsd` (Ground Sample Distance in meters) is used for automatic resolution determination
+"""
+function generate_isar(
+	sources::Vector{T};
+	xlims=:auto, ylims=:auto, resolution=:auto, noise_level=0.1, gsd=0.02
+) where {T<:ScatteringSource}
+	# If needed, determine reasonable auto settings
+	if xlims == :auto
+		x_exs = map(_x_extrema, sources)
+		xmin = min(map(ex -> ex[1], x_exs))
+		xmax = max(map(ex -> ex[2], x_exs))
+		xpad = 0.5 * (xmax - xmin)
+		xlims = (xmin - xpad, xmax + xpad)
+	end
+	if ylims == :auto
+		y_exs = map(_y_extrema, sources)
+		ymin = min(map(ex -> ex[1], y_exs))
+		ymax = max(map(ex -> ex[2], y_exs))
+		ypad = 0.5 * (ymax - ymin)
+		ylims = (ymin - ypad, ymax + ypad)
+	end
+	if resolution == :auto
+		ranges = (xlims[2]-xlims[1], ylims[2]-ylims[1])
+		resolution = round.(Int, ranges ./ gsd)
+	end
+
 	# Generate a blank monochrome image
 	isar = ISAR_Image(xlims=xlims, ylims=ylims, resolution=resolution)
 	
@@ -78,7 +110,7 @@ function generate_isar(sources; xlims, ylims, resolution)
 	isar.img = imfilter(isar.img, Kernel.gaussian(1))
 
 	# Add noise
-	_isar_add_noise!(isar, 0.1)
+	_isar_add_noise!(isar, noise_level)
 	
 	# Return the finished image
 	return isar

@@ -88,3 +88,11 @@ function coherentsum(sources::Vector{T}, lambda, phi) where {T<:ScatteringSource
 	contribution(source) = sqrt(source.sigma(θ)) * exp(j*phase(x(source.pos), y(source.pos)))
     abs(sum([contribution(source) for source in sources]))^2
 end
+
+# Get the [min max] range of spatial positions along the x dimension
+_x_extrema(point::ScatteringPoint) = [_x(point.pos) _x(point.pos)]
+_x_extrema(line::ScatteringLine) = sort([_x(line.a) _x(line.b)])
+
+# Get the [min max] range of spatial positions along the y dimension
+_y_extrema(point::ScatteringPoint) = [_y(point.pos) _y(point.pos)]
+_y_extrema(line::ScatteringLine) = sort([_y(line.a) _y(line.b)])
