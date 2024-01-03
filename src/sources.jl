@@ -11,9 +11,14 @@ Represents a scattering point source at some `pos`ition in space and with
 monostatic RCS function `sigma`.
 """
 struct ScatteringPoint <: ScatteringSource
-    pos::Meshes.Point
+    pos::Meshes.Point{2,Float64}
     sigma::Function
     isar_amplitude::Float64
+
+    # Construct using a Point, sigma function, and optionally an ISAR amplitude
+    function ScatteringPoint(pos::Meshes.Point, sigma::Function, isar_amplitude=1.0)
+        new(pos, sigma, isar_amplitude)
+    end
 end
 
 """
@@ -23,11 +28,21 @@ Represents a scattering line source that extends from a point `a` to another
 point `b` with a monostatic RCS function `sigma`.
 """
 struct ScatteringLine <: ScatteringSource
-	a::Meshes.Point
-	b::Meshes.Point
-    s::Meshes.Segment
+	a::Meshes.Point{2,Float64}
+	b::Meshes.Point{2,Float64}
+    s::Meshes.Segment{2,Float64}
     sigma::Function
     isar_amplitude::Float64
+end
+
+# Construct using: end-Points, a sigma function, and an optional ISAR amplitude
+function ScatteringLine(a::P, b::P, sigma::Function, isar_amplitude=1.0) where {P<:Meshes.Point}
+    ScatteringLine(a, b, Meshes.Segment(a,b), sigma, isar_amplitude)
+end
+
+# Construct using: a Segment, a sigma function, and an optional ISAR amplitude
+function ScatteringLine(s::Meshes.Segment, sigma::Function, isar_amplitude=1.0)
+    ScatteringLine(s.vertices[1], s.vertices[2], s, sigma, isar_amplitude)
 end
 
 ################################################################################
