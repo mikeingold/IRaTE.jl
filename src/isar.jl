@@ -85,23 +85,24 @@ Optional settings:
 """
 function generate_isar(
 	sources::Vector{T};
-	xlims=:auto, ylims=:auto, resolution=:auto, noise_level=0.1, gsd=0.02
+	xlims=:auto, ylims=:auto, resolution=:auto, noise_level=0.1, gsd=0.02, pad_factor=0.5
 ) where {T<:ScatteringSource}
-	# If needed, determine reasonable auto settings
-	if xlims == :auto
-		x_exs = map(_x_extrema, sources)
-		xmin = min(map(ex -> ex[1], x_exs))
-		xmax = max(map(ex -> ex[2], x_exs))
-		xpad = 0.5 * (xmax - xmin)
-		xlims = (xmin - xpad, xmax + xpad)
+	# If :auto limits, determine reasonable settings
+	if (xlims == :auto) || (ylims == :auto)
+		# Calculate a 2D bounding box enclosing all source geometries
+		bbox = boundingbox(map(_geometry, sources))
+		pads = pad_factor .* (bbox.max - bbox.min)
+
+		# For any :auto axis limits, use the bounding box limits expanded by the padding
+		if (xlims == :auto)
+			xlims = _x.([bbox.min, bbox.max]) .+ (-pads[1], pads[1])
+		end
+		if (ylims == :auto)
+			ylims = _y.([bbox.min, bbox.max]) .+ (-pads[2], pads[2])
+		end
 	end
-	if ylims == :auto
-		y_exs = map(_y_extrema, sources)
-		ymin = min(map(ex -> ex[1], y_exs))
-		ymax = max(map(ex -> ex[2], y_exs))
-		ypad = 0.5 * (ymax - ymin)
-		ylims = (ymin - ypad, ymax + ypad)
-	end
+
+	# If :auto resolution, determine reasonable settings
 	if resolution == :auto
 		ranges = (xlims[2]-xlims[1], ylims[2]-ylims[1])
 		resolution = round.(Int, ranges ./ gsd)

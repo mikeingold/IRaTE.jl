@@ -25,6 +25,7 @@ point `b` with a monostatic RCS function `sigma`.
 struct ScatteringLine <: ScatteringSource
 	a::Meshes.Point
 	b::Meshes.Point
+    s::Meshes.Segment
     sigma::Function
     isar_amplitude::Float64
 end
@@ -89,10 +90,6 @@ function coherentsum(sources::Vector{T}, lambda, phi) where {T<:ScatteringSource
     abs(sum([contribution(source) for source in sources]))^2
 end
 
-# Get the [min max] range of spatial positions along the x dimension
-_x_extrema(point::ScatteringPoint) = [_x(point.pos) _x(point.pos)]
-_x_extrema(line::ScatteringLine) = sort([_x(line.a) _x(line.b)])
-
-# Get the [min max] range of spatial positions along the y dimension
-_y_extrema(point::ScatteringPoint) = [_y(point.pos) _y(point.pos)]
-_y_extrema(line::ScatteringLine) = sort([_y(line.a) _y(line.b)])
+# Get the fundamental geometry object associated with a ScatteringSource
+_geometry(pt::ScatteringPoint) = pt.pos
+_geometry(line::ScatteringLine) = pt.s
