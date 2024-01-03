@@ -44,6 +44,8 @@ function _isar_add_layer!(isar::ISAR_Image, source::ScatteringPoint)
 	
 	# Draw the point on the image
 	draw!(isar.img, ImageDraw.Point(img_x,img_y), Gray{Float64}(1.0))
+
+	return nothing
 end
 
 # Draw a ScatteringLine on in ISAR image
@@ -58,6 +60,8 @@ function _isar_add_layer!(isar::ISAR_Image, source::ScatteringLine)
 	
 	# Draw a line segment on the image
 	draw!(isar.img, LineSegment(img_a,img_b), Gray{Float64}(1.0), xiaolin_wu)
+
+	return nothing
 end
 
 # Draw simulated noise on an ISAR image
@@ -72,6 +76,8 @@ function _isar_add_noise!(isar::ISAR_Image, level)
 
 	# Add noise layer to existing image data
 	isar.img .+= noise
+
+	return nothing
 end
 
 """
@@ -95,10 +101,10 @@ function generate_isar(
 
 		# For any :auto axis limits, use the bounding box limits expanded by the padding
 		if (xlims == :auto)
-			xlims = _x.([bbox.min, bbox.max]) .+ (-pads[1], pads[1])
+			xlims = x.([bbox.min, bbox.max]) .+ (-pads[1], pads[1])
 		end
 		if (ylims == :auto)
-			ylims = _y.([bbox.min, bbox.max]) .+ (-pads[2], pads[2])
+			ylims = y.([bbox.min, bbox.max]) .+ (-pads[2], pads[2])
 		end
 	end
 
